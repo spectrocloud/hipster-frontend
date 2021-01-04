@@ -10,16 +10,21 @@ on:
 #     - '*'
 
 # Environment variables available to all jobs and steps in this workflow
-# env:
-#   REGISTRY_NAME: {registry-name}
+env:
+  APP_URL: http://a93ca502557d747d084bc3dfa5bf2c53-2142201707.us-west-2.elb.amazonaws.com/
+  IMAGE_PULL_SECRET: spectro-image-pull-secret
+  NAMESPACE: default
 #   CLUSTER_NAME: {cluster-name}
 #   CLUSTER_RESOURCE_GROUP: {resource-group-name}
 #   NAMESPACE: {namespace-name}
 #   SECRET: {secret-name}
 #   APP_NAME: {app-name}
-  
+
 jobs:
   build:
+    environment:
+      name: dev
+      url: {{ env.APP_URL }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@main
@@ -28,7 +33,7 @@ jobs:
     #   run: echo ::set-output name=GIT_TAG_NAME::${GITHUB_REF/refs\/tags\//}
     - name: Get the version
       id: get_tag_name
-      run: echo ::set-output name=GIT_TAG_NAME::latest
+      run: echo ::set-output name=GIT_TAG_NAME::${{ github.sha }}
     - uses: whoan/docker-build-with-cache-action@v5
       with:
         username: _json_key
@@ -36,3 +41,17 @@ jobs:
         registry: gcr.io
         image_name: spectro-common-dev/saamalik/hipster/frontend
         image_tag: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
+    - uses: azure/k8s-set-context@v1
+      with:
+        method: kubeconfig
+        kubeconfig: ${{ secrets.KUBECONFIG }}
+      id: setcontext
+    - uses: azure/k8s-deploy@v1
+      with:
+        manifests: |
+          manifests/deployment.yaml
+        images: |
+          gcr.io/spectro-common-dev/saamalik/hipster/frontend:${{ steps.get_tag_name.outputs.GIT_TAG_NAME }}
+        imagepullsecrets: |
+          ${{ env.SECRET }}
+        namespace: ${{ env.NAMESPACE }}
