@@ -15,7 +15,7 @@ on:
 env:
   APP_URL: http://a93ca502557d747d084bc3dfa5bf2c53-2142201707.us-west-2.elb.amazonaws.com/
   IMAGE_PULL_SECRET: spectro-image-pull-secret
-  NAMESPACE: default
+  K8S_NAMESPACE: default
 #   CLUSTER_NAME: {cluster-name}
 #   CLUSTER_RESOURCE_GROUP: {resource-group-name}
 #   NAMESPACE: {namespace-name}
@@ -56,4 +56,4 @@ jobs:
           gcr.io/spectro-common-dev/saamalik/hipster/frontend:${{ steps.get_tag_name.outputs.GIT_TAG_NAME }}
         imagepullsecrets: |
           ${{ env.SECRET }}
-        namespace: ${{ env.NAMESPACE }}
+        namespace: ${{ env.K8S_NAMESPACE }}
