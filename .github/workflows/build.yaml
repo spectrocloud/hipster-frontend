@@ -24,10 +24,10 @@ env:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
-    environment:
-      name: dev
-      url: ${{ env.APP_URL }}
+    outputs:
+      git_tag_name: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME }}
     steps:
     - uses: actions/checkout@main
     # - name: Get the version
@@ -43,6 +43,14 @@ jobs:
         registry: gcr.io
         image_name: spectro-common-dev/saamalik/hipster/frontend
         image_tag: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
+  deploy:
+    name: Deploy to Dev Env
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: dev
+      url: ${{ env.APP_URL }}
+    steps:
     - uses: azure/k8s-set-context@v1
       with:
         method: kubeconfig
@@ -53,7 +61,7 @@ jobs:
         manifests: |
           manifests/deployment.yaml
         images: |
-          gcr.io/spectro-common-dev/saamalik/hipster/frontend:${{ steps.get_tag_name.outputs.GIT_TAG_NAME }}
+          gcr.io/spectro-common-dev/saamalik/hipster/frontend:${{ needs.build.outputs.git_tag_name }}
         imagepullsecrets: |
           ${{ env.SECRET }}
         namespace: ${{ env.K8S_NAMESPACE }}
