@@ -51,6 +51,7 @@ jobs:
       name: dev
       url: ${{ env.APP_URL }}
     steps:
+    - uses: actions/checkout@main
     - uses: azure/k8s-set-context@v1
       with:
         method: kubeconfig
