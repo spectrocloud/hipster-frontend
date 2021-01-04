@@ -1,3 +1,5 @@
+name: Build and Deploy frontend
+
 on:
   # Trigger the workflow on push or pull request,
   # but only for the main branch
@@ -22,10 +24,10 @@ env:
 
 jobs:
   build:
+    runs-on: ubuntu-latest
     environment:
       name: dev
-      url: {{ env.APP_URL }}
-    runs-on: ubuntu-latest
+      url: ${{ env.APP_URL }}
     steps:
     - uses: actions/checkout@main
     # - name: Get the version
