@@ -29,11 +29,10 @@ jobs:
     - name: Get the version
       id: get_tag_name
       run: echo ::set-output name=GIT_TAG_NAME::latest
-    - uses: RafikFarhad/push-to-gcr-github-action@v3.0.1
+    - uses: whoan/docker-build-with-cache-action@v5
       with:
-        gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
+        username: _json_key
+        password: ${{ secrets.GCLOUD_JSON_KEY }}
         registry: gcr.io
-        project_id: spectro-common-dev
-        image_name: saamalik/hipster/frontend
+        image_name: spectro-common-dev/saamalik/hipster/frontend
         image_tag: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
-        dockerfile: Dockerfile
