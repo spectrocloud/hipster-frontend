@@ -70,3 +70,31 @@ jobs:
         imagepullsecrets: |
           ${{ env.SECRET }}
         namespace: ${{ env.K8S_NAMESPACE }}
+
+  promote:
+    name: Promote all to latest
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: prod
+      url: ${{ env.APP_URL }}
+    steps:
+    - uses: actions/checkout@main
+    - uses: spectrocloud/k8s-set-context@v1
+      with:
+        host: ${{ secrets.SC_HOST }}
+        username: ${{ secrets.SC_USERNAME }}
+        password: ${{ secrets.SC_PASSWORD }}
+        projectName: ${{ secrets.SC_PROJECT }}
+        clusterName: ${{ secrets.SC_CLUSTER }}
+      id: setcontext
+    - uses: azure/k8s-deploy@v1
+      with:
+        manifests: |
+          manifests/deployment.yaml
+          manifests/service.yaml
+        images: |
+          gcr.io/spectro-common-dev/saamalik/hipster/frontend:${{ needs.build.outputs.git_tag_name }}
+        imagepullsecrets: |
+          ${{ env.SECRET }}
+        namespace: ${{ env.K8S_NAMESPACE }}
