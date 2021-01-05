@@ -13,7 +13,7 @@ on:
 
 # Environment variables available to all jobs and steps in this workflow
 env:
-  APP_URL: http://13.83.146.20/
+  APP_URL: http://40.125.56.121/
   IMAGE_PULL_SECRET: spectro-image-pull-secret
   K8S_NAMESPACE: default
 #   CLUSTER_NAME: {cluster-name}
