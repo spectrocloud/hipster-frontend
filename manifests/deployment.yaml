@@ -41,19 +41,19 @@ spec:
           - name: PORT
             value: "8080"
           - name: PRODUCT_CATALOG_SERVICE_ADDR
-            value: "productcatalogservice:3550"
+            value: "productcatalogservice.default:3550"
           - name: CURRENCY_SERVICE_ADDR
-            value: "currencyservice:7000"
+            value: "currencyservice.default:7000"
           - name: CART_SERVICE_ADDR
-            value: "cartservice:7070"
+            value: "cartservice.default:7070"
           - name: RECOMMENDATION_SERVICE_ADDR
-            value: "recommendationservice:8080"
+            value: "recommendationservice.default:8080"
           - name: SHIPPING_SERVICE_ADDR
-            value: "shippingservice:50051"
+            value: "shippingservice.default:50051"
           - name: CHECKOUT_SERVICE_ADDR
-            value: "checkoutservice:5050"
+            value: "checkoutservice.default:5050"
           - name: AD_SERVICE_ADDR
-            value: "adservice:9555"
+            value: "adservice.default:9555"
           # - name: DISABLE_TRACING
           #   value: "1"
           # - name: DISABLE_PROFILER
