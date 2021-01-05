@@ -7,6 +7,7 @@ spec:
     matchLabels:
       app: frontend
   template:
+    replicas: 4
     metadata:
       labels:
         app: frontend
@@ -14,7 +15,6 @@ spec:
       annotations:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
-      replicas: 4
       imagePullSecrets:
       - name: spectro-image-pull-secret
       containers:

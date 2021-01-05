@@ -70,6 +70,8 @@ jobs:
         imagepullsecrets: |
           ${{ env.SECRET }}
         namespace: ${{ env.K8S_NAMESPACE }}
+        strategy: canary
+        percentage: 25
 
   promote:
     name: Promote all to latest
