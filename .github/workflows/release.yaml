@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: dev
+      name: prod
       url: ${{ env.APP_URL }}
     steps:
     - uses: actions/checkout@main
