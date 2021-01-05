@@ -100,3 +100,5 @@ jobs:
         imagepullsecrets: |
           ${{ env.SECRET }}
         namespace: ${{ env.K8S_NAMESPACE }}
+        strategy: canary
+        action: promote
