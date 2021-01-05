@@ -1,19 +1,19 @@
-name: Build and Deploy frontend
+name: Release the frontend (Prod)
 
-on:
-  # Trigger the workflow on push or pull request,
-  # but only for the main branch
-  push:
-    branches:
-      - main
 # on:
+#   # Trigger the workflow on push or pull request,
+#   # but only for the main branch
 #   push:
-#     tags:
-#     - '*'
+#     branches:
+#       - main
+on:
+  push:
+    tags:
+    - '*'
 
 # Environment variables available to all jobs and steps in this workflow
 env:
-  APP_URL: http://a93ca502557d747d084bc3dfa5bf2c53-2142201707.us-west-2.elb.amazonaws.com/
+  APP_URL: http://13.83.146.20/
   IMAGE_PULL_SECRET: spectro-image-pull-secret
   K8S_NAMESPACE: default
 #   CLUSTER_NAME: {cluster-name}
@@ -30,12 +30,12 @@ jobs:
       git_tag_name: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME }}
     steps:
     - uses: actions/checkout@main
-    # - name: Get the version
-    #   id: get_tag_name
-    #   run: echo ::set-output name=GIT_TAG_NAME::${GITHUB_REF/refs\/tags\//}
     - name: Get the version
       id: get_tag_name
-      run: echo ::set-output name=GIT_TAG_NAME::${{ github.sha }}
+      run: echo ::set-output name=GIT_TAG_NAME::${GITHUB_REF/refs\/tags\//}
+    # - name: Get the version
+    #   id: get_tag_name
+    #   run: echo ::set-output name=GIT_TAG_NAME::${{ github.sha }}
     - uses: whoan/docker-build-with-cache-action@v5
       with:
         username: _json_key
@@ -44,7 +44,7 @@ jobs:
         image_name: spectro-common-dev/saamalik/hipster/frontend
         image_tag: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
   deploy:
-    name: Deploy to Dev Env
+    name: Deploy to Prod Env
     runs-on: ubuntu-latest
     needs: build
     environment:
