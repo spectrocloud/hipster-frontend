@@ -52,10 +52,13 @@ jobs:
       url: ${{ env.APP_URL }}
     steps:
     - uses: actions/checkout@main
-    - uses: azure/k8s-set-context@v1
+    - uses: spectrocloud/k8s-set-context@v1
       with:
-        method: kubeconfig
-        kubeconfig: ${{ secrets.KUBECONFIG }}
+        host: ${{ secrets.SC_HOST }}
+        username: ${{ secrets.SC_USERNAME }}
+        password: ${{ secrets.SC_PASSWORD }}
+        projectName: Default
+        clusterName: aws-picard-2
       id: setcontext
     - uses: azure/k8s-deploy@v1
       with:
