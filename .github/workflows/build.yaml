@@ -60,7 +60,7 @@ jobs:
         projectName: ${{ secrets.SC_PROJECT }}
         clusterName: ${{ secrets.SC_CLUSTER }}
       id: setcontext
-    - uses: azure/k8s-deploy@v1
+    - uses: azure/k8s-deploy@v1.4
       with:
         manifests: |
           manifests/deployment.yaml
