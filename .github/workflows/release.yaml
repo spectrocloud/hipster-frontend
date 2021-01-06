@@ -84,7 +84,7 @@ jobs:
   promote:
     name: Promote all to latest
     runs-on: ubuntu-latest
-    needs: deploy
+    needs: ["build", "deploy"]
     environment:
       name: prod
       url: ${{ env.APP_URL }}
