@@ -62,6 +62,7 @@ jobs:
       id: deploycluster
   build:
     name: Build
+    needs: k8sdeploy
     runs-on: ubuntu-latest
     outputs:
       git_tag_name: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME }}
