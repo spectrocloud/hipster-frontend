@@ -1,0 +1,109 @@
+name: Build and Deploy Test
+
+on:  
+  pull_request:
+    branches:
+    - main
+# on:
+#   push:
+#     tags:
+#     - '*'
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  APP_URL: http://a93ca502557d747d084bc3dfa5bf2c53-2142201707.us-west-2.elb.amazonaws.com/
+  IMAGE_PULL_SECRET: spectro-image-pull-secret
+  K8S_NAMESPACE: default
+#   CLUSTER_NAME: {cluster-name}
+#   CLUSTER_RESOURCE_GROUP: {resource-group-name}
+#   NAMESPACE: {namespace-name}
+#   SECRET: {secret-name}
+#   APP_NAME: {app-name}
+
+jobs:
+  k8sdeploy:
+    name: Deploy K8s cluster
+    runs-on: ubuntu-latest
+    # outputs:
+    #   cluster_uid: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME }}
+    steps:
+    - uses: spectrocloud/k8s-deploy-cluster@v1
+      with:
+        host: ${{ secrets.SC_HOST }}
+        username: ${{ secrets.SC_USERNAME }}
+        password: ${{ secrets.SC_PASSWORD }}
+        deletePostJob: false
+        clusterNamePrefix: cicd
+        clusterTemplate: |
+          cloudType: aws
+          projectName: Default
+          clusterProfileName: ProdAWS
+          cloudAccountName: aws-1
+          labels:
+            cicd: spectro__tag
+          cloudConfig:
+            region: us-west-2
+            sshKeyName: default
+          machinePools:
+          - controlPlane: true
+            controlPlaneAsWorker: true
+            name: master-pool
+            count: 1
+            config:
+              instanceType: t3.large
+              rootDeviceSize: 62
+              azs: ["us-west-2a"]
+          # - name: worker-pool1
+          #   count: 1
+          #   config:
+          #     instanceType: t3.large
+          #     rootDeviceSize: 65
+          #     azs: ["us-west-2a"]
+      id: deploycluster
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    outputs:
+      git_tag_name: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME }}
+    steps:
+    - uses: actions/checkout@main
+    # - name: Get the version
+    #   id: get_tag_name
+    #   run: echo ::set-output name=GIT_TAG_NAME::${GITHUB_REF/refs\/tags\//}
+    - name: Get the version
+      id: get_tag_name
+      run: echo ::set-output name=GIT_TAG_NAME::${{ github.sha }}
+    - uses: whoan/docker-build-with-cache-action@v5
+      with:
+        username: _json_key
+        password: ${{ secrets.GCLOUD_JSON_KEY }}
+        registry: gcr.io
+        image_name: spectro-common-dev/saamalik/hipster/frontend
+        image_tag: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
+  deploy:
+    name: Deploy to Dev Env
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: dev
+      url: ${{ env.APP_URL }}
+    steps:
+    - uses: actions/checkout@main
+    - uses: spectrocloud/k8s-set-context@v1
+      with:
+        host: ${{ secrets.SC_HOST }}
+        username: ${{ secrets.SC_USERNAME }}
+        password: ${{ secrets.SC_PASSWORD }}
+        projectName: ${{ secrets.SC_PROJECT }}
+        clusterName: ${{ secrets.SC_CLUSTER }}
+      id: setcontext
+    - uses: azure/k8s-deploy@v1.4
+      with:
+        manifests: |
+          manifests/deployment.yaml
+          manifests/service.yaml
+        images: |
+          gcr.io/spectro-common-dev/saamalik/hipster/frontend:${{ needs.build.outputs.git_tag_name }}
+        imagepullsecrets: |
+          ${{ env.SECRET }}
+        namespace: ${{ env.K8S_NAMESPACE }}
