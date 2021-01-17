@@ -30,3 +30,5 @@ jobs:
       run: echo "Hello ${{ github.event.inputs.name }}"
     - name: Send greeting
       run: pwd
+    - name: Send greeting
+      run: ls -R
