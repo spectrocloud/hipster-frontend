@@ -13,7 +13,7 @@ on:
 
 # Environment variables available to all jobs and steps in this workflow
 env:
-  APP_URL: http://a93ca502557d747d084bc3dfa5bf2c53-2142201707.us-west-2.elb.amazonaws.com/
+  APP_URL: http://ae83e4bb5f8894d29963fac6394e4d2f-551896007.us-west-2.elb.amazonaws.com
   IMAGE_PULL_SECRET: spectro-image-pull-secret
   K8S_NAMESPACE: default
 #   CLUSTER_NAME: {cluster-name}
