@@ -25,7 +25,7 @@ env:
 jobs:
   build:
     name: Build
-    runs-on: self-hosted
+    #runs-on: self-hosted
     outputs:
       git_tag_name: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME }}
     steps:
@@ -45,7 +45,7 @@ jobs:
         image_tag: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
   deploy:
     name: Deploy to Dev Env
-    runs-on: self-hosted
+    #runs-on: self-hosted
     needs: build
     environment:
       name: dev
