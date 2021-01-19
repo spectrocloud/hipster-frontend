@@ -58,7 +58,7 @@ jobs:
         username: ${{ secrets.SC_USERNAME }}
         password: ${{ secrets.SC_PASSWORD }}
         projectName: Default
-        clusterName: saad-tmo-complete1
+        clusterName: aws-picard-3
       id: setcontext
     - uses: azure/k8s-deploy@v1.4
       with:
