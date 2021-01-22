@@ -16,7 +16,7 @@ env:
   APP_URL: http://ae83e4bb5f8894d29963fac6394e4d2f-551896007.us-west-2.elb.amazonaws.com
   IMAGE_PULL_SECRET: spectro-image-pull-secret
   K8S_NAMESPACE: default
-  INTERNAL_HTTPS_PROXY: http://10.10.132.89:3128
+  #INTERNAL_HTTPS_PROXY: http://10.10.132.89:3128
 #   CLUSTER_NAME: {cluster-name}
 #   CLUSTER_RESOURCE_GROUP: {resource-group-name}
 #   NAMESPACE: {namespace-name}
