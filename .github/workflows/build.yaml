@@ -17,7 +17,9 @@ env:
   IMAGE_PULL_SECRET: spectro-image-pull-secret
   K8S_NAMESPACE: default
   HTTP_PROXY: http://10.10.132.89:3128
+  http_proxy: http://10.10.132.89:3128
   HTTPS_PROXY: http://10.10.132.89:3128
+  https_proxy: http://10.10.132.89:3128
 #   CLUSTER_NAME: {cluster-name}
 #   CLUSTER_RESOURCE_GROUP: {resource-group-name}
 #   NAMESPACE: {namespace-name}
