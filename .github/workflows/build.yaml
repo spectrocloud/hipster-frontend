@@ -17,7 +17,6 @@ env:
   IMAGE_PULL_SECRET: spectro-image-pull-secret
   K8S_NAMESPACE: default
   HTTP_PROXY: http://10.10.132.89:3128
-  http_proxy: http://10.10.132.89:3128
   # HTTPS_PROXY: http://10.10.132.89:3128
 #   CLUSTER_NAME: {cluster-name}
 #   CLUSTER_RESOURCE_GROUP: {resource-group-name}
@@ -43,7 +42,7 @@ jobs:
         registry: gcr.io
         image_name: spectro-common-dev/saamalik/hipster/frontend
         image_tag: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
-        # build_extra_args: --build-arg=http_proxy=${{ env.INTERNAL_HTTPS_PROXY }}
+        build_extra_args: --build-arg=http_proxy=${{ env.HTTP_PROXY }}
   deploy:
     name: Deploy to Dev Env
     runs-on: self-hosted #ubuntu-latest
