@@ -1,5 +1,5 @@
 FROM golang:1.12-alpine as builder
-RUN apk add --no-cache ca-certificates git && \
+RUN apk add --no-cache ca-certificates git curl && \
       curl -L -o /go/bin/dep https://github.com/golang/dep/releases/download/v0.5.0/dep-linux-amd64 && \
       chmod +x /go/bin/dep
 
