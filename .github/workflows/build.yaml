@@ -26,8 +26,7 @@ env:
 jobs:
   build:
     name: Build
-    #runs-on: self-hosted #ubuntu-latest
-    runs-on: ubuntu-latest
+    runs-on: self-hosted #ubuntu-latest
     outputs:
       git_tag_name: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME }}
     steps:
