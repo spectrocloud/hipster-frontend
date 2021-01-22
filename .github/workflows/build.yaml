@@ -44,7 +44,7 @@ jobs:
         registry: gcr.io
         image_name: spectro-common-dev/saamalik/hipster/frontend
         image_tag: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
-        build_extra_args: --build-arg=HTTPS_PROXY=http://10.10.132.89:3128 --build-arg=https_proxy=http://10.10.132.89:3128 --build-arg=http_proxy=http://10.10.132.89:3128 
+        build_extra_args: --build-arg=http_proxy=http://10.10.132.89:3128 --build-arg=https_proxy=http://10.10.132.89:3128
   deploy:
     name: Deploy to Dev Env
     runs-on: self-hosted #ubuntu-latest
