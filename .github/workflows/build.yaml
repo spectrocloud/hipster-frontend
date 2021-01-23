@@ -21,8 +21,6 @@ env:
 
 jobs:
   build:
-    env:
-      http_proxy: http://10.10.132.89:3128
     name: Build
     runs-on: self-hosted #ubuntu-latest
     outputs:
