@@ -16,13 +16,8 @@ env:
   APP_URL: http://ae83e4bb5f8894d29963fac6394e4d2f-551896007.us-west-2.elb.amazonaws.com
   IMAGE_PULL_SECRET: spectro-image-pull-secret
   K8S_NAMESPACE: default
-  #HTTP_PROXY: http://10.10.132.89:3128
-  # HTTPS_PROXY: http://10.10.132.89:3128
-#   CLUSTER_NAME: {cluster-name}
-#   CLUSTER_RESOURCE_GROUP: {resource-group-name}
-#   NAMESPACE: {namespace-name}
-#   SECRET: {secret-name}
-#   APP_NAME: {app-name}
+  # When using a self-hosted runner, set the http_proxy/https_proxy 
+  # inside of the .env file, e.g: https://bit.ly/3qJPmhF
 
 jobs:
   build:
@@ -44,7 +39,7 @@ jobs:
         registry: gcr.io
         image_name: spectro-common-dev/saamalik/hipster/frontend
         image_tag: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
-        build_extra_args: --build-arg=http_proxy=http://10.10.132.89:3128 --build-arg=https_proxy=http://10.10.132.89:3128
+        #build_extra_args: --build-arg=http_proxy=${{ env.http_proxy }} --build-arg=https_proxy=${{ env.https_proxy }}
   deploy:
     name: Deploy to Dev Env
     runs-on: self-hosted #ubuntu-latest
