@@ -52,8 +52,8 @@ jobs:
         projectName: Default
         clusterName: aws-picard-3
       id: setcontext
-    - name: Print env
-      run: env
+    # - name: Print env
+    #   run: env
     - uses: azure/k8s-deploy@v1.4
       with:
         manifests: |
