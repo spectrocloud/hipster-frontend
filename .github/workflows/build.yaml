@@ -44,8 +44,8 @@ jobs:
         push: true
         tags: spectro-common-dev/saamalik/hipster/frontend:${{ steps.get_tag_name.outputs.GIT_TAG_NAME }}
         build-args: |
-          https_proxy=$${env.https_proxy}
-          http_proxy=$${env.http_proxy}
+          https_proxy=${{env.https_proxy}}
+          http_proxy=${{env.http_proxy}}
           
     #- uses: whoan/docker-build-with-cache-action@v5
     #  with:
