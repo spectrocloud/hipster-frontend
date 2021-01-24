@@ -43,15 +43,7 @@ jobs:
       run: >
         docker push
         gcr.io/spectro-common-dev/saamalik/hipster/frontend:${{steps.get_tag_name.outputs.GIT_TAG_NAME}}
-      # with:
-      #   push: true
-      #   tags: spectro-common-dev/saamalik/hipster/frontend:${{ steps.get_tag_name.outputs.GIT_TAG_NAME }}
-      #   build-args: |
-      #     https_proxy=${{env.INTERNAL_HTTPS_PROXY}}
-      #     HTTPS_PROXY=${{env.INTERNAL_HTTPS_PROXY}}
-      #     http_proxy=${{env.INTERNAL_HTTPS_PROXY}}
-      #     HTTP_PROXY=${{env.INTERNAL_HTTPS_PROXY}}
-          
+    # The following works, but isn't necessary; especially with self-hosted runners which cache all the outputs
     #- uses: whoan/docker-build-with-cache-action@v5
     #  with:
     #    username: _json_key
