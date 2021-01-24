@@ -54,7 +54,7 @@ jobs:
         username: ${{ secrets.SC_USERNAME }}
         password: ${{ secrets.SC_PASSWORD }}
         projectName: Default
-        clusterName: aws-prod-3
+        clusterName: aws-picard-3
       id: setcontext
     - name: Print env
       run: env
