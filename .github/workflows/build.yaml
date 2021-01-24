@@ -35,13 +35,11 @@ jobs:
         username: _json_key
         password: ${{ secrets.GCLOUD_JSON_KEY }}
     - name: Build Image
-      id: docker_build
       run: >
         docker build --tag
         gcr.io/spectro-common-dev/saamalik/hipster/frontend:${{steps.get_tag_name.outputs.GIT_TAG_NAME}}
         .
     - name: Push image
-      id: docker_build
       run: >
         docker push
         gcr.io/spectro-common-dev/saamalik/hipster/frontend:${{steps.get_tag_name.outputs.GIT_TAG_NAME}}
