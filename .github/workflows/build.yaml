@@ -1,6 +1,5 @@
 name: Build and Deploy Dev
 
-
 on:
   # Trigger the workflow on push or pull request,
   # but only for the main branch
@@ -10,7 +9,7 @@ on:
 
 # Environment variables available to all jobs and steps in this workflow
 env:
-  APP_URL: http://ae83e4bb5f8894d29963fac6394e4d2f-551896007.us-west-2.elb.amazonaws.com
+  APP_URL: http://a87887c2f7e8b4b85b2538fc0615f37b-577306077.us-west-2.elb.amazonaws.com
   IMAGE_PULL_SECRET: spectro-image-pull-secret
   K8S_NAMESPACE: default
   # When using a self-hosted runner, set the http_proxy/https_proxy 
