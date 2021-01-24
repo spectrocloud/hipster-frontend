@@ -13,6 +13,7 @@ env:
   IMAGE_PULL_SECRET: spectro-image-pull-secret
   K8S_NAMESPACE: default
   INTERNAL_HTTPS_PROXY: http://10.10.132.89:3128
+  INTERNAL_HTTPS_PROXY: spectro-common-dev
   # When using a self-hosted runner, set the http_proxy/https_proxy 
   # inside of the .env file, e.g: https://bit.ly/3qJPmhF
 
@@ -29,26 +30,31 @@ jobs:
       run: echo ::set-output name=GIT_TAG_NAME::${{ github.sha }}
     - name: Print env
       run: env
-    - name: Set up Docker Buildx
-      id: buildx
-      uses: docker/setup-buildx-action@v1
     - name: Login to GCR
       uses: docker/login-action@v1
       with:
         registry: gcr.io
         username: _json_key
         password: ${{ secrets.GCLOUD_JSON_KEY }}
-    - name: Build and push
+    - name: Build Image
       id: docker_build
-      uses: docker/build-push-action@v2
-      with:
-        push: true
-        tags: spectro-common-dev/saamalik/hipster/frontend:${{ steps.get_tag_name.outputs.GIT_TAG_NAME }}
-        build-args: |
-          https_proxy=${{env.INTERNAL_HTTPS_PROXY}}
-          HTTPS_PROXY=${{env.INTERNAL_HTTPS_PROXY}}
-          http_proxy=${{env.INTERNAL_HTTPS_PROXY}}
-          HTTP_PROXY=${{env.INTERNAL_HTTPS_PROXY}}
+      run: >
+        docker build --tag
+        gcr.io/spectro-common-dev/saamalik/hipster/frontend:${{steps.get_tag_name.outputs.GIT_TAG_NAME}}
+        .
+    - name: Push image
+      id: docker_build
+      run: >
+        docker push
+        gcr.io/spectro-common-dev/saamalik/hipster/frontend:${{steps.get_tag_name.outputs.GIT_TAG_NAME}}
+      # with:
+      #   push: true
+      #   tags: spectro-common-dev/saamalik/hipster/frontend:${{ steps.get_tag_name.outputs.GIT_TAG_NAME }}
+      #   build-args: |
+      #     https_proxy=${{env.INTERNAL_HTTPS_PROXY}}
+      #     HTTPS_PROXY=${{env.INTERNAL_HTTPS_PROXY}}
+      #     http_proxy=${{env.INTERNAL_HTTPS_PROXY}}
+      #     HTTP_PROXY=${{env.INTERNAL_HTTPS_PROXY}}
           
     #- uses: whoan/docker-build-with-cache-action@v5
     #  with:
