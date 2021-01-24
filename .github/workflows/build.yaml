@@ -52,7 +52,9 @@ jobs:
         username: ${{ secrets.SC_USERNAME }}
         password: ${{ secrets.SC_PASSWORD }}
         projectName: Default
-        clusterName: aws-picard-3
+        clusterTags: |
+          cicd: hipster
+          dev: spectro__tag
       id: setcontext
     # - name: Print env
     #   run: env
