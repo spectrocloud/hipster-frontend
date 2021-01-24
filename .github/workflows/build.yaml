@@ -1,4 +1,4 @@
-name: Build and Deploy frontend
+name: Build and Deploy Dev
 
 on:
   # Trigger the workflow on push or pull request,
@@ -6,10 +6,6 @@ on:
   push:
     branches:
       - main
-# on:
-#   push:
-#     tags:
-#     - '*'
 
 # Environment variables available to all jobs and steps in this workflow
 env:
@@ -68,3 +64,4 @@ jobs:
         imagepullsecrets: |
           ${{ env.SECRET }}
         namespace: ${{ env.K8S_NAMESPACE }}
+
