@@ -28,15 +28,30 @@ jobs:
       run: echo ::set-output name=GIT_TAG_NAME::${{ github.sha }}
     - name: Print env
       run: env
-    - uses: whoan/docker-build-with-cache-action@v5
+    - name: Login to GCR
+      uses: docker/login-action@v1
       with:
+        registry: gcr.io
         username: _json_key
         password: ${{ secrets.GCLOUD_JSON_KEY }}
-        registry: gcr.io
-        image_name: spectro-common-dev/saamalik/hipster/frontend
-        image_tag: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
-        #build_extra_args: --build-arg=http_proxy=${{ env.http_proxy }} --build-arg=https_proxy=${{ env.https_proxy }}
-        ## http_proxy/https_proxy should be specified in the runner .env; see comment in the env section above.
+    - name: Build and push
+      id: docker_build
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: spectro-common-dev/saamalik/hipster/frontend:${{ steps.get_tag_name.outputs.GIT_TAG_NAME }}
+        # build-args: |
+        #   arg1=value1
+        #   arg2=value2
+    #- uses: whoan/docker-build-with-cache-action@v5
+    #  with:
+    #    username: _json_key
+    #    password: ${{ secrets.GCLOUD_JSON_KEY }}
+    #    registry: gcr.io
+    #    image_name: spectro-common-dev/saamalik/hipster/frontend
+    #    image_tag: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
+    #    #build_extra_args: --build-arg=http_proxy=${{ env.http_proxy }} --build-arg=https_proxy=${{ env.https_proxy }}
+    #    ## http_proxy/https_proxy should be specified in the runner .env; see comment in the env section above.
   deploy:
     name: Deploy to Dev Env
     runs-on: self-hosted #ubuntu-latest
