@@ -35,7 +35,7 @@ jobs:
         registry: gcr.io
         image_name: spectro-common-dev/saamalik/hipster/frontend
         image_tag: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
-        build_extra_args: --build-arg=http_proxy=${{ env.http_proxy }} --build-arg=https_proxy=${{ env.https_proxy }}
+        #build_extra_args: --build-arg=http_proxy=${{ env.http_proxy }} --build-arg=https_proxy=${{ env.https_proxy }}
         ## http_proxy/https_proxy should be specified in the runner .env; see comment in the env section above.
   deploy:
     name: Deploy to Dev Env
