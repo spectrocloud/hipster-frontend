@@ -7,14 +7,18 @@ pipeline {
                 echo 'Building 3..'
             }
         }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
+            }
+        }
+    }
+    post {
+        success {
+            script {
+                if (env.CHANGE_ID) {
+                    pullRequest.addLabel('Build Success - URL http://${hipster_url}')
+                }
             }
         }
     }
