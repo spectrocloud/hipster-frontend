@@ -108,7 +108,7 @@ jobs:
     - uses: actions/checkout@main
     - uses: spectrocloud/k8s-set-context@v1
       with:
-        host: ${{ secrets.SC_HOST }}
+        host: https://discovery.spectrocloud.com
         username: ${{ secrets.SC_USERNAME }}
         password: ${{ secrets.SC_PASSWORD }}
         projectName: Default
