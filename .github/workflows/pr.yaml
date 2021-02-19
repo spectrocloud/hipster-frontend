@@ -11,9 +11,9 @@ on:
 
 # Environment variables available to all jobs and steps in this workflow
 env:
-  APP_URL: http://10.10.182.110
+  APP_URL: http://a676941b1afa24b548bee494aa63cee0-1812614096.us-west-2.elb.amazonaws.com
   IMAGE_PULL_SECRET: spectro-image-pull-secret
-  K8S_NAMESPACE: dev1
+  K8S_NAMESPACE: default
 #   CLUSTER_NAME: {cluster-name}
 #   CLUSTER_RESOURCE_GROUP: {resource-group-name}
 #   NAMESPACE: {namespace-name}
@@ -108,7 +108,7 @@ jobs:
     - uses: actions/checkout@main
     - uses: spectrocloud/k8s-set-context@v1
       with:
-        host: https://discovery.spectrocloud.com
+        host: ${{ secrets.SC_HOST }}
         username: ${{ secrets.SC_USERNAME }}
         password: ${{ secrets.SC_PASSWORD }}
         projectName: Default
