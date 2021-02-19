@@ -20,10 +20,12 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                docker.withRegistry( '', registryCredential ) {
-                    dockerImage.push("$BUILD_NUMBER")
-                    dockerImage.push('latest')
-                }
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                        dockerImage.push("$BUILD_NUMBER")
+                        dockerImage.push('latest')
+                    }
+                } 
             }
         }
         stage('Remove Unused docker image') {
