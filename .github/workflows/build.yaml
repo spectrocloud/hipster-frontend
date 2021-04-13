@@ -9,7 +9,7 @@ on:
 
 # Environment variables available to all jobs and steps in this workflow
 env:
-  APP_URL: http://a676941b1afa24b548bee494aa63cee0-1812614096.us-west-2.elb.amazonaws.com
+  APP_URL: http://34.106.192.185
   IMAGE_PULL_SECRET: spectro-image-pull-secret
   K8S_NAMESPACE: default
   # When using a self-hosted runner, set the http_proxy/https_proxy 
