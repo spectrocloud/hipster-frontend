@@ -6,5 +6,3 @@ Run the following command to restore dependencies to `vendor/` directory:
 
 Sample app showing CICD through Spectro Cloud CICD.
 
-
-
