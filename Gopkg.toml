@@ -25,6 +25,9 @@
 #   unused-packages = true
 
 
+[metadata.heroku]
+  root-package = "hipster-frontend"
+
 [[constraint]]
   name = "cloud.google.com/go"
   version = "0.40.0"
